@@ -6,188 +6,225 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Administrativo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --danger-color: #e74c3c;
-            --success-color: #27ae60;
+            --bg-page: #eceff2;
+            --bg-surface: #ffffff;
+            --bg-nav: #1c2128;
+            --text-primary: #1c2128;
+            --text-secondary: #5c6570;
+            --text-muted: #8b939c;
+            --border: #d8dde3;
+            --accent: #3d4f5f;
+            --accent-hover: #2f3d4a;
+            --danger: #8b3a3a;
+            --danger-hover: #723030;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            background: linear-gradient(135deg, var(--primary-color) 0%, #34495e 100%);
+            background: var(--bg-page);
             min-height: 100vh;
             padding: 20px 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+            font-size: 0.9375rem;
+            line-height: 1.5;
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
         }
-        
+
         .navbar {
-            background-color: var(--primary-color) !important;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            border-bottom: 3px solid var(--secondary-color);
+            background-color: var(--bg-nav) !important;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12);
+            border-bottom: 1px solid #2d333b;
         }
-        
+
         .navbar-brand {
-            font-weight: bold;
-            font-size: 1.5rem;
-            color: white !important;
+            font-weight: 600;
+            font-size: 1.125rem;
+            letter-spacing: -0.02em;
+            color: #f0f2f4 !important;
         }
-        
+
+        .navbar .btn-danger {
+            background-color: var(--danger);
+            border-color: var(--danger);
+            font-weight: 500;
+            font-size: 0.8125rem;
+        }
+
+        .navbar .btn-danger:hover {
+            background-color: var(--danger-hover);
+            border-color: var(--danger-hover);
+        }
+
         .welcome-section {
-            color: white;
+            color: var(--text-primary);
             text-align: center;
             margin: 40px 0 30px;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
-        
+
         .welcome-section h2 {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-size: 1.75rem;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            margin-bottom: 8px;
+            color: var(--text-primary);
         }
-        
+
+        .welcome-section p {
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
         .admin-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            gap: 20px;
             max-width: 1200px;
             margin: 0 auto 40px;
             padding: 0 20px;
         }
-        
+
         .admin-card {
-            background: white;
-            border-radius: 12px;
+            background: var(--bg-surface);
+            border-radius: 6px;
+            border: 1px solid var(--border);
             overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            transition: all 0.3s ease;
+            box-shadow: 0 1px 2px rgba(28, 33, 40, 0.04);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
             cursor: pointer;
             text-decoration: none !important;
             color: inherit !important;
             display: flex;
             flex-direction: column;
         }
-        
+
         .admin-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+            border-color: #b8c0c8;
+            box-shadow: 0 4px 12px rgba(28, 33, 40, 0.08);
             color: inherit !important;
         }
-        
+
         .admin-card-header {
-            padding: 25px;
-            color: white;
+            padding: 20px 22px;
+            color: var(--text-primary);
+            background: #f6f7f9;
+            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            min-height: 100px;
+            min-height: 88px;
         }
-        
+
+        .admin-card-header h3 {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
         .admin-card-icon {
-            font-size: 2.5rem;
-            opacity: 0.9;
+            font-size: 1.5rem;
+            color: var(--accent);
+            opacity: 0.85;
         }
-        
+
         .admin-card-body {
-            padding: 20px 25px;
+            padding: 20px 22px;
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
-        
+
         .admin-card-title {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: var(--primary-color);
+            font-size: 1.0625rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            color: var(--text-primary);
         }
-        
+
         .admin-card-description {
-            color: #7f8c8d;
-            font-size: 0.95rem;
-            margin-bottom: 15px;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 16px;
             flex: 1;
+            line-height: 1.55;
         }
-        
+
         .admin-card-button {
             display: inline-block;
-            background: linear-gradient(135deg, var(--secondary-color) 0%, #2980b9 100%);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
+            background: var(--accent);
+            color: #f5f6f7;
+            padding: 9px 18px;
+            border-radius: 4px;
             text-decoration: none !important;
             text-align: center;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.8125rem;
+            letter-spacing: 0.01em;
+            transition: background-color 0.2s ease;
             cursor: pointer;
             border: none;
         }
-        
+
         .admin-card-button:hover {
-            background: linear-gradient(135deg, #2980b9 0%, #1f618d 100%);
-            color: white !important;
+            background: var(--accent-hover);
+            color: #f5f6f7 !important;
             text-decoration: none !important;
-            transform: scale(1.05);
         }
-        
-        .card-usuarios .admin-card-header {
-            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+
+        .card-usuarios .admin-card-header { border-left: 3px solid #4a5568; }
+        .card-productos .admin-card-header { border-left: 3px solid #5a4e4e; }
+        .card-categorias .admin-card-header { border-left: 3px solid #5c5344; }
+        .card-pedidos .admin-card-header { border-left: 3px solid #3d5248; }
+        .card-pagos .admin-card-header { border-left: 3px solid #3d4a52; }
+        .card-resenas .admin-card-header { border-left: 3px solid #454a5c; }
+
+        .card-usuarios .admin-card-header h3,
+        .card-productos .admin-card-header h3,
+        .card-categorias .admin-card-header h3,
+        .card-pedidos .admin-card-header h3,
+        .card-pagos .admin-card-header h3,
+        .card-resenas .admin-card-header h3 {
+            color: var(--text-primary) !important;
         }
-        
-        .card-productos .admin-card-header {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-        }
-        
-        .card-categorias .admin-card-header {
-            background: linear-gradient(135deg, #f39c12 0%, #d68910 100%);
-        }
-        
-        .card-pedidos .admin-card-header {
-            background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%);
-        }
-        
-        .card-pagos .admin-card-header {
-            background: linear-gradient(135deg, #16a085 0%, #117a65 100%);
-        }
-        
-        .card-resenas .admin-card-header {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-        }
-        
+
         .logout-section {
             text-align: center;
             margin: 40px 0;
         }
-        
+
         .btn-logout {
-            background: linear-gradient(135deg, var(--danger-color) 0%, #c0392b 100%);
-            color: white;
-            padding: 12px 40px;
-            font-weight: bold;
-            font-size: 1rem;
-            border-radius: 5px;
+            background: var(--bg-surface);
+            color: var(--danger);
+            padding: 10px 32px;
+            font-weight: 500;
+            font-size: 0.875rem;
+            border-radius: 4px;
             text-decoration: none !important;
-            transition: all 0.3s ease;
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
             display: inline-block;
-            border: none;
+            border: 1px solid #c9b4b4;
             cursor: pointer;
         }
-        
+
         .btn-logout:hover {
-            background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
-            color: white !important;
+            background: #faf5f5;
+            color: var(--danger-hover) !important;
+            border-color: #b89a9a;
             text-decoration: none !important;
-            transform: scale(1.05);
         }
     </style>
 </head>
