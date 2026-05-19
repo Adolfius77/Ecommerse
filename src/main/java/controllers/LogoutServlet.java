@@ -17,18 +17,18 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author USER
  */
-@WebServlet(name = "LogoutServlet", urlPatterns = {"/Logout"})
+@WebServlet(name = "LogoutServlet", urlPatterns = {"/Logout", "/logout"})
 public class LogoutServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession sesion = request.getSession(false);
-        
-        if(sesion !=null){
+
+        if (sesion != null) {
             sesion.invalidate();
         }
-        response.sendRedirect(request.getContextPath() + "/loginView.jsp?logout=true");
+        response.sendRedirect(request.getContextPath() + "/index.jsp");
     }
 
 }

@@ -239,7 +239,7 @@
                 <span class="me-3">
                     <i class="fas fa-user"></i> ${sessionScope.usuario}
                 </span>
-                <a href="${pageContext.request.contextPath}/logout" class="btn btn-danger btn-sm">
+                <a href="${pageContext.request.contextPath}/Logout" class="btn btn-danger btn-sm">
                     <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
                 </a>
             </div>
@@ -373,7 +373,7 @@
 
     <!-- Logout Section -->
     <div class="logout-section">
-        <a href="${pageContext.request.contextPath}/logout" class="btn-logout">
+        <a href="${pageContext.request.contextPath}/Logout" class="btn-logout">
             <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
         </a>
     </div>
