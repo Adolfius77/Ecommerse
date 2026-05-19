@@ -59,17 +59,19 @@ public class loginServlet extends HttpServlet {
                 sesion.setAttribute("esAdmin", esAdmin);
 
                 if (esAdmin) {
-                    request.setAttribute("exito", "inicio de sesion exitoso rederigiendo al panel de control");
+                    request.setAttribute("exito", "Inicio de sesión exitoso. Redirigiendo al panel de control...");
                     request.setAttribute("urlDestino", request.getContextPath() + "/admin/dashboard");
                     request.getRequestDispatcher("/loginView.jsp").forward(request, response);
+                    return;
                 }
             } else {
                 System.out.println("Usuario NO encontrado en BD despues de autenticacion");
             }
 
-            request.setAttribute("exito", "Inicio de sesión exitoso, Redirigiendo a la tienda...");
-            request.setAttribute("urlDestino", request.getContextPath() + "/index.jsp");
+            request.setAttribute("exito", "Inicio de sesión exitoso. Redirigiendo al catálogo...");
+            request.setAttribute("urlDestino", request.getContextPath() + "/catalogo");
             request.getRequestDispatcher("/loginView.jsp").forward(request, response);
+            return;
 
         } else {
             request.setAttribute("error", "correo o contrasena incorrectos");
