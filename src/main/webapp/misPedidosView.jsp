@@ -7,9 +7,96 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Proyecto ECommerce - Mis Pedidos</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <link rel="stylesheet" href="./styles/estiloCarrito.css">
-        <link rel="stylesheet" href="./styles/estiloMisPedidos.css">
-    </head>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/estiloCarrito.css">
+        <style>
+            .pedidos-header h2 {
+                color: #333;
+                margin-bottom: 10px;
+            }
+            .pedidos-lista {
+                display: grid;
+                gap: 20px;
+            }
+            .pedido-card {
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                padding: 20px;
+                background: white;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .pedido-header {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 15px;
+                padding-bottom: 15px;
+                border-bottom: 1px solid #eee;
+            }
+            .pedido-header h4 {
+                margin: 0 0 5px 0;
+                color: #667eea;
+            }
+            .pedido-fecha {
+                margin: 0;
+                color: #666;
+                font-size: 0.9em;
+            }
+            .pedido-estado {
+                text-align: right;
+            }
+            .estado {
+                display: inline-block;
+                padding: 6px 12px;
+                border-radius: 20px;
+                font-size: 0.85em;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+            .estado.PENDIENTE {
+                background: #fff3cd;
+                color: #856404;
+            }
+            .estado.ENVIADO {
+                background: #cfe2ff;
+                color: #084298;
+            }
+            .estado.ENTREGADO {
+                background: #d1e7dd;
+                color: #0f5132;
+            }
+            .pedido-total {
+                margin: 0;
+                font-size: 1.1em;
+                font-weight: bold;
+                color: #333;
+            }
+            .pedido-items {
+                margin: 15px 0;
+                padding: 15px 0;
+            }
+            .item-resumen {
+                display: flex;
+                justify-content: space-between;
+                padding: 8px 0;
+                border-bottom: 1px solid #f0f0f0;
+            }
+            .pedido-acciones {
+                display: flex;
+                gap: 10px;
+                margin-top: 15px;
+            }
+            .btn-secundario {
+                padding: 8px 16px;
+                background: #6c757d;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 0.9em;
+            }
+            .btn-secundario:hover {
+                background: #5a6268;
+            }
+        </style>
     <body>
 
         <div class="layout-container">
@@ -57,8 +144,8 @@
                                 <article class="pedido-card">
                                     <div class="pedido-header">
                                         <div>
-                                            <h4>Pedido #${pedido.numeroPedido}</h4>
-                                            <p class="pedido-fecha">Fecha: <fmt:formatDate value="${pedido.fechaPedido}" pattern="dd/MM/yyyy" /></p>
+                                            <h4>Pedido ${pedido.numeroPedido}</h4>
+                                            <p class="pedido-fecha">Fecha: <fmt:formatDate value="${pedido.fecha}" pattern="dd/MM/yyyy HH:mm" /></p>
                                         </div>
                                         <div class="pedido-estado">
                                             <span class="estado ${pedido.estado}">${pedido.estado}</span>
@@ -67,10 +154,10 @@
                                     </div>
 
                                     <div class="pedido-items">
-                                        <c:forEach var="detalle" items="${pedido.detalles}">
+                                        <c:forEach var="producto" items="${pedido.productos}">
                                             <div class="item-resumen">
-                                                <span>${detalle.nombre} x ${detalle.cantidad}</span>
-                                                <span>$${detalle.precioUnitario * detalle.cantidad}</span>
+                                                <span>${producto.nombreProducto} x ${producto.cantidad}</span>
+                                                <span>$${producto.subtotal}</span>
                                             </div>
                                         </c:forEach>
                                     </div>

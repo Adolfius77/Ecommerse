@@ -62,24 +62,23 @@
                         <c:forEach var="item" items="${carrito}">
                         <article class="carrito-item">
                             <div class="item-img" style="display: flex; justify-content: center; align-items: center; height: 100px; background: #f8f9fa;">
-                                <img src="${item.producto.imagenProducto}" alt="${item.producto.nombre}" style="max-height: 100%; max-width: 100%; object-fit: contain;" onerror="this.src='styles/img/placeholder.png'">
+                                <img src="${item.imagenProducto}" alt="${item.nombre}" style="max-height: 100%; max-width: 100%; object-fit: contain;" onerror="this.src='styles/img/placeholder.png'">
                             </div>
                             <div class="item-info">
-                                <h4>${item.producto.nombre}</h4>
-                                <p>${item.producto.categoria}</p>
-                                <span class="item-precio">$${item.producto.precio}</span>
+                                <h4>${item.nombre}</h4>
+                                <span class="item-precio">$${item.precioUnitario}</span>
                             </div>
                             <div class="item-controles">
-                                <form method="POST" action="${pageContext.request.contextPath}/verCarrito" style="display: flex; align-items: center; gap: 10px;">
-                                    <input type="hidden" name="accion" value="actualizarCantidad">
-                                    <input type="hidden" name="productoId" value="${item.producto.id}">
+                                <form method="POST" action="${pageContext.request.contextPath}/carrito" style="display: flex; align-items: center; gap: 10px;">
+                                    <input type="hidden" name="accion" value="actualizar">
+                                    <input type="hidden" name="productoId" value="${item.productoId}">
                                     <button type="submit" name="cantidad" value="${item.cantidad - 1}" class="btn-cantidad" ${item.cantidad <= 1 ? 'disabled' : ''}>-</button>
                                     <span>${item.cantidad}</span>
                                     <button type="submit" name="cantidad" value="${item.cantidad + 1}" class="btn-cantidad">+</button>
                                 </form>
-                                <form method="POST" action="${pageContext.request.contextPath}/verCarrito" style="display: inline;">
+                                <form method="POST" action="${pageContext.request.contextPath}/carrito" style="display: inline;">
                                     <input type="hidden" name="accion" value="eliminar">
-                                    <input type="hidden" name="productoId" value="${item.producto.id}">
+                                    <input type="hidden" name="productoId" value="${item.productoId}">
                                     <button type="submit" class="btn-eliminar"><i class="fa-solid fa-trash"></i></button>
                                 </form>
                             </div>

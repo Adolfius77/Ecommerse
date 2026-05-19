@@ -217,12 +217,13 @@ public class CarritoServlet extends HttpServlet {
         HttpSession sesion = request.getSession();
         List<ItemCarrito> carrito = obtenerCarritoDelaSesion(sesion);
         
-        double total = carrito.stream()
+        double subtotal = carrito.stream()
                 .mapToDouble(ItemCarrito::getSubtotal)
                 .sum();
         
         request.setAttribute("carrito", carrito);
-        request.setAttribute("total", total);
+        request.setAttribute("subtotal", subtotal);
+        request.setAttribute("total", subtotal);
         request.getRequestDispatcher("/carritoView.jsp").forward(request, response);
     }
     

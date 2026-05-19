@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Optional;
 import model.Categoria;
 import negocio.CategoriaBO;
 import negocio.interfaces.ICategoriaBO;
@@ -33,12 +34,28 @@ public class GestionCategoriasServlet extends HttpServlet {
             return;
         }
         
+        String accion = request.getParameter("accion");
+        String id = request.getParameter("id");
+        
         try {
-            List<Categoria> categorias = categoriaBO.listarCategorias();
-            request.setAttribute("categorias", categorias);
+            if ("editar".equals(accion) && id != null && !id.isEmpty()) {
+         
+                Optional<Categoria> categoria = categoriaBO.obtenerPorId(new ObjectId(id));
+                List<Categoria> categorias = categoriaBO.listarCategorias();
+                request.setAttribute("categoria", categoria);
+                request.setAttribute("categorias", categorias);
+            } else {
+                
+                List<Categoria> categorias = categoriaBO.listarCategorias();
+                request.setAttribute("categorias", categorias);
+            }
             request.getRequestDispatcher("/gestionCategoriasView.jsp").forward(request, response);
         } catch (Exception e) {
-            request.setAttribute("error", "Error al listar categorías: " + e.getMessage());
+            request.setAttribute("error", "Error al procesar categorías: " + e.getMessage());
+            try {
+                List<Categoria> categorias = categoriaBO.listarCategorias();
+                request.setAttribute("categorias", categorias);
+            } catch (Exception ex) {}
             request.getRequestDispatcher("/gestionCategoriasView.jsp").forward(request, response);
         }
     }

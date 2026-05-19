@@ -1,6 +1,9 @@
 <%-- Gestión de pedidos y pagos (vista administrador) --%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
+
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
+
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
@@ -10,6 +13,46 @@
         <title>Administración - Pedidos y pagos</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/estiloGestionPanel.css">
+        <style>
+            .estado-select {
+                padding: 6px 10px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 0.9em;
+            }
+            .badge-estado {
+                padding: 6px 12px;
+                border-radius: 20px;
+                font-size: 0.85em;
+                font-weight: bold;
+            }
+            .badge-pendiente {
+                background: #fff3cd;
+                color: #856404;
+            }
+            .badge-enviado {
+                background: #cfe2ff;
+                color: #084298;
+            }
+            .badge-entregado {
+                background: #d1e7dd;
+                color: #0f5132;
+            }
+            .badge-pago {
+                background: #d1e7dd;
+                color: #0f5132;
+            }
+            .badge-pendiente-pago {
+                background: #f8d7da;
+                color: #842029;
+            }
+            .no-pedidos {
+                text-align: center;
+                padding: 40px;
+                color: #666;
+            }
+        </style>
     </head>
     <body>
         <div class="layout-container">
@@ -37,31 +80,58 @@
                     <div class="page-header">
                         <div>
                             <h2>Pedidos y pagos</h2>
+
                             <p>Consulta las compras de los clientes y actualiza el estado del pedido y del pago.</p>
+
+                            <p>Consulta las compras de los clientes y actualiza el estado del pedido</p>
+
                         </div>
                     </div>
 
                     <c:if test="${not empty mensaje}">
+
                         <p style="color: #2d5248; margin-bottom: 1rem;">${mensaje}</p>
                     </c:if>
                     <c:if test="${not empty error}">
                         <p style="color: #8b3a3a; margin-bottom: 1rem;">${error}</p>
                     </c:if>
 
+
+                        <div style="background: #d4edda; color: #155724; padding: 12px; border-radius: 4px; margin-bottom: 20px; border: 1px solid #c3e6cb;">
+                            <i class="fa-solid fa-check-circle"></i> ${mensaje}
+                        </div>
+                    </c:if>
+
+                    <c:if test="${not empty error}">
+                        <div style="background: #f8d7da; color: #842029; padding: 12px; border-radius: 4px; margin-bottom: 20px; border: 1px solid #f5c2c7;">
+                            <i class="fa-solid fa-exclamation-circle"></i> ${error}
+                        </div>
+                    </c:if>
+
+                    <c:if test="${empty pedidos}">
+                        <div class="no-pedidos">
+                            <i class="fa-solid fa-inbox" style="font-size: 3em; color: #ccc; margin-bottom: 15px;"></i>
+                            <p style="font-size: 1.1em;">No hay pedidos registrados</p>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${not empty pedidos}">
+
                     <div class="table-wrap">
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>Pedido</th>
+                                    <th>Número Pedido</th>
                                     <th>Cliente</th>
                                     <th>Fecha</th>
                                     <th>Total</th>
-                                    <th>Estado pedido</th>
-                                    <th>Pago</th>
+                                    <th>Estado Pedido</th>
+                                    <th>Estado Pago</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
+
                                 <c:forEach var="p" items="${pedidos}">
                                     <c:set var="pid" value="${p.id}"/>
                                     <tr>
@@ -123,9 +193,61 @@
                                         <td colspan="7">No hay pedidos registrados.</td>
                                     </tr>
                                 </c:if>
+
+                                <c:forEach var="pedido" items="${pedidos}">
+                                <tr>
+                                    <td><strong>${pedido.numeroPedido}</strong></td>
+                                    <td>${pedido.nombreCliente}</td>
+                                    <td>
+                                        <fmt:formatDate value="${pedido.fecha}" pattern="dd/MM/yyyy HH:mm" 
+                                                       xmlns:fmt="jakarta.tags.fmt"/>
+                                    </td>
+                                    <td>$${pedido.total}</td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${pedido.estado == 'PENDIENTE'}">
+                                                <span class="badge-estado badge-pendiente">Pendiente</span>
+                                            </c:when>
+                                            <c:when test="${pedido.estado == 'ENVIADO'}">
+                                                <span class="badge-estado badge-enviado">Enviado</span>
+                                            </c:when>
+                                            <c:when test="${pedido.estado == 'ENTREGADO'}">
+                                                <span class="badge-estado badge-entregado">Entregado</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="badge-estado badge-pendiente">${pedido.estado}</span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${pedido.estadoPago == 'PAGADO'}">
+                                                <span class="badge-estado badge-pago">Pagado</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="badge-estado badge-pendiente-pago">${pedido.estadoPago}</span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td>
+                                        <form method="POST" action="${pageContext.request.contextPath}/admin/gestionPedidos" style="display: inline;">
+                                            <input type="hidden" name="accion" value="cambiarEstado">
+                                            <input type="hidden" name="pedidoId" value="${pedido.id}">
+                                            <select name="nuevoEstado" class="estado-select" onchange="this.form.submit();">
+                                                <option value="">-- Cambiar estado --</option>
+                                                <option value="PENDIENTE" ${pedido.estado == 'PENDIENTE' ? 'selected' : ''}>Pendiente</option>
+                                                <option value="ENVIADO" ${pedido.estado == 'ENVIADO' ? 'selected' : ''}>Enviado</option>
+                                                <option value="ENTREGADO" ${pedido.estado == 'ENTREGADO' ? 'selected' : ''}>Entregado</option>
+                                            </select>
+                                        </form>
+                                    </td>
+                                </tr>
+                                </c:forEach>
+
                             </tbody>
                         </table>
                     </div>
+                    </c:if>
                 </main>
                 <footer class="footer">
                     <p>Aplicaciones Web – Unidad 4</p>

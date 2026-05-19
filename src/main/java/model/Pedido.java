@@ -13,6 +13,7 @@ import org.bson.types.ObjectId;
  * @author USER
  */
 public class Pedido {
+
     ObjectId _id;
     private String nombreCliente;
     private Date fecha;
@@ -23,6 +24,12 @@ public class Pedido {
     private String estadoPago;
     private String metodoPago;
     private String direccionEnvio;
+    private String numeroPedido;
+    private String ciudad;
+    private String codigoPostal;
+    private String pais;
+    private String email;
+    private String telefono;
 
     public Pedido() {
     }
@@ -107,12 +114,60 @@ public class Pedido {
         this.metodoPago = metodoPago;
     }
 
+    public String getNumeroPedido() {
+        return numeroPedido;
+    }
+
+    public void setNumeroPedido(String numeroPedido) {
+        this.numeroPedido = numeroPedido;
+    }
+
     public String getDireccionEnvio() {
         return direccionEnvio;
     }
 
     public void setDireccionEnvio(String direccionEnvio) {
         this.direccionEnvio = direccionEnvio;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public String getCodigoPostal() {
+        return codigoPostal;
+    }
+
+    public void setCodigoPostal(String codigoPostal) {
+        this.codigoPostal = codigoPostal;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
 }
