@@ -1,7 +1,6 @@
 <%-- 
-    Document   : newjsp
-    Created on : May 12, 2026, 7:34:43 PM
-    Author     : adolfo
+    Document   : catalogoView.jsp
+    Catálogo de productos con filtros y búsqueda
 --%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -9,9 +8,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Proyecto ECommerce - Catalogo</title>
+        <title>Proyecto ECommerce - Catálogo</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <link rel="stylesheet" href="./styles/estiloCatalogo.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/estiloCatalogo.css">
     </head>
     <body>
 
@@ -47,49 +46,50 @@
                                 <p style="color: red;">${error}</p>
                             </c:if>
                         </div>
-                        <div class="search-bar">
-                            <input type="text" placeholder="Buscar productos, marcas o categorías">
-                            <button class="btn-primario"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
-                        </div>
+                        <form method="GET" action="${pageContext.request.contextPath}/catalogo" class="search-bar">
+                            <input type="text" name="nombre" placeholder="Buscar productos, marcas o categorías" value="${nombreBusqueda}">
+                            <button type="submit" class="btn-primario"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+                        </form>
                     </div>
 
                     <div class="catalogo-grid">
                         <aside class="filtros">
                             <h3>Filtros</h3>
-                            <div class="filtro-grupo">
-                                <label>Categorías</label>
-                                <div class="filtro-opciones">
-                                    <label><input type="checkbox"> Tecnología</label>
-                                    <label><input type="checkbox"> Hogar</label>
-                                    <label><input type="checkbox"> Accesorios</label>
-                                    <label><input type="checkbox"> Moda</label>
+                            <form method="GET" action="${pageContext.request.contextPath}/catalogo" id="filtrosForm">
+                                <!-- Campo oculto para preservar la búsqueda por nombre -->
+                                <input type="hidden" name="nombre" value="${nombreBusqueda}">
+                                
+                                <div class="filtro-grupo">
+                                    <label>Categorías</label>
+                                    <div class="filtro-opciones">
+                                        <label><input type="radio" name="categoria" value="" ${empty categoriaBusqueda ? 'checked' : ''}> Todas</label>
+                                        <label><input type="radio" name="categoria" value="Tecnología" ${categoriaBusqueda == 'Tecnología' ? 'checked' : ''}> Tecnología</label>
+                                        <label><input type="radio" name="categoria" value="Hogar" ${categoriaBusqueda == 'Hogar' ? 'checked' : ''}> Hogar</label>
+                                        <label><input type="radio" name="categoria" value="Accesorios" ${categoriaBusqueda == 'Accesorios' ? 'checked' : ''}> Accesorios</label>
+                                        <label><input type="radio" name="categoria" value="Moda" ${categoriaBusqueda == 'Moda' ? 'checked' : ''}> Moda</label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="filtro-grupo">
-                                <label>Rango de precio</label>
-                                <div class="filtro-opciones">
-                                    <label><input type="checkbox"> $0 - $50</label>
-                                    <label><input type="checkbox"> $51 - $150</label>
-                                    <label><input type="checkbox"> $151 - $300</label>
-                                    <label><input type="checkbox"> $300+</label>
+                                
+                                <div class="filtro-grupo">
+                                    <label>Rango de precio</label>
+                                    <div class="filtro-opciones">
+                                        <label><input type="radio" name="rango" value="" ${empty param.rango ? 'checked' : ''}> Todos los precios</label>
+                                        <label><input type="radio" name="rango" value="0-50" ${param.rango == '0-50' ? 'checked' : ''}> $0 - $50</label>
+                                        <label><input type="radio" name="rango" value="51-150" ${param.rango == '51-150' ? 'checked' : ''}> $51 - $150</label>
+                                        <label><input type="radio" name="rango" value="151-300" ${param.rango == '151-300' ? 'checked' : ''}> $151 - $300</label>
+                                        <label><input type="radio" name="rango" value="300-99999" ${param.rango == '300-99999' ? 'checked' : ''}> $300+</label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="filtro-grupo">
-                                <label>Valoración</label>
-                                <div class="filtro-opciones">
-                                    <label><input type="checkbox"> 5 estrellas</label>
-                                    <label><input type="checkbox"> 4 estrellas o más</label>
-                                    <label><input type="checkbox"> 3 estrellas o más</label>
-                                </div>
-                            </div>
-                            <div class="filtro-grupo">
-                                <label>Disponibilidad</label>
-                                <div class="filtro-opciones">
-                                    <label><input type="checkbox"> En stock</label>
-                                    <label><input type="checkbox"> En oferta</label>
-                                </div>
-                            </div>
-                            <button class="btn-secundario">Limpiar filtros</button>
+                                
+                                <input type="hidden" name="precioMin" id="precioMin">
+                                <input type="hidden" name="precioMax" id="precioMax">
+                                
+                                <button type="submit" class="btn-primario" style="width: 100%; margin-bottom: 10px;">Aplicar filtros</button>
+                            </form>
+                            
+                            <c:if test="${filtroAplicado}">
+                                <a href="${pageContext.request.contextPath}/catalogo" class="btn-secundario" style="display: block; text-align: center;">Limpiar filtros</a>
+                            </c:if>
                         </aside>
 
                         <section class="productos-grid">
@@ -145,4 +145,38 @@
         </div>
 
     </body>
+    
+    <script>
+        
+        document.querySelectorAll('input[name="rango"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const rango = this.value;
+                const precioMinInput = document.getElementById('precioMin');
+                const precioMaxInput = document.getElementById('precioMax');
+                
+                if (rango === '0-50') {
+                    precioMinInput.value = '0';
+                    precioMaxInput.value = '50';
+                } else if (rango === '51-150') {
+                    precioMinInput.value = '51';
+                    precioMaxInput.value = '150';
+                } else if (rango === '151-300') {
+                    precioMinInput.value = '151';
+                    precioMaxInput.value = '300';
+                } else if (rango === '300-99999') {
+                    precioMinInput.value = '300';
+                    precioMaxInput.value = '99999';
+                } else {
+                    precioMinInput.value = '';
+                    precioMaxInput.value = '';
+                }
+            });
+        });
+        
+        
+        const rangoSeleccionado = document.querySelector('input[name="rango"]:checked');
+        if (rangoSeleccionado && rangoSeleccionado.value !== '') {
+            rangoSeleccionado.dispatchEvent(new Event('change'));
+        }
+    </script>
 </html>

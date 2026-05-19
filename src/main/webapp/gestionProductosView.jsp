@@ -7,22 +7,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Administración - Inventario de productos</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <link rel="stylesheet" href="./styles/estiloGestionPanel.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/estiloGestionPanel.css">
     </head>
     <body>
         <div class="layout-container">
             <aside class="sidebar">
                 <nav>
                     <ul>
-                        <li><a href="index.jsp"><i class="fa-solid fa-house"></i> Inicio</a></li>
-                        <li><a href="${pageContext.request.contextPath}/catalogo"><i class="fa-solid fa-box-open"></i> Catálogo</a></li>
+                       <li><a href="${pageContext.request.contextPath}/admin/dashboard"><i class="fa-solid fa-house"></i> DashBoard</a></li>
                         <li><a href="${pageContext.request.contextPath}/admin/gestionProductos" class="active"><i class="fa-solid fa-warehouse"></i> Inventario</a></li>
                         <li><a href="${pageContext.request.contextPath}/admin/gestionCategorias"><i class="fa-solid fa-tags"></i> Categorías</a></li>
                         <li><a href="${pageContext.request.contextPath}/admin/gestionUsuarios"><i class="fa-solid fa-users"></i> Usuarios</a></li>
                         <li><a href="${pageContext.request.contextPath}/admin/gestionPedidos"><i class="fa-solid fa-receipt"></i> Pedidos y pagos</a></li>
                         <li><a href="${pageContext.request.contextPath}/admin/moderacionResenas"><i class="fa-solid fa-star-half-stroke"></i> Moderación reseñas</a></li>
-                        <li><a href="${pageContext.request.contextPath}/Perfil"><i class="fa-solid fa-user"></i> Mi perfil (cliente)</a></li>
-                        <li><a href="${pageContext.request.contextPath}/MisPedidos"><i class="fa-solid fa-clock-rotate-left"></i> Mis pedidos</a></li>
                         <li><a href="loginView.jsp"><i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión</a></li>
                     </ul>
                 </nav>
@@ -53,31 +50,36 @@
                         <p style="color:#5f6368;font-size:14px;margin-bottom:16px;">Campos alineados con el modelo Producto</p>
                         <form method="POST" action="${pageContext.request.contextPath}/admin/gestionProductos">
                             <div class="form-grid-panel">
-                                <input type="hidden" name="id" id="prodId">
-                                <input type="hidden" name="accion" id="accion" value="crear">
+                                <c:if test="${not empty producto}">
+                                    <input type="hidden" name="id" value="${producto.id}">
+                                </c:if>
+                                <c:if test="${empty producto}">
+                                    <input type="hidden" name="id" value="">
+                                </c:if>
+                                <input type="hidden" name="accion" value="guardar">
                                 <div class="campo-form-panel">
                                     <label for="prodNombre">Nombre</label>
-                                    <input type="text" id="prodNombre" name="nombre" placeholder="Nombre del producto" required>
+                                    <input type="text" id="prodNombre" name="nombre" placeholder="Nombre del producto" value="${not empty producto ? producto.nombre : ''}" required>
                                 </div>
                                 <div class="campo-form-panel">
                                     <label for="prodPrecio">Precio</label>
-                                    <input type="number" id="prodPrecio" name="precio" step="0.01" placeholder="0.00" required>
+                                    <input type="number" id="prodPrecio" name="precio" step="0.01" placeholder="0.00" value="${not empty producto ? producto.precio : ''}" required>
                                 </div>
                                 <div class="campo-form-panel">
                                     <label for="prodStock">Stock</label>
-                                    <input type="number" id="prodStock" name="stock" min="0" placeholder="0" required>
+                                    <input type="number" id="prodStock" name="stock" min="0" placeholder="0" value="${not empty producto ? producto.stock : ''}" required>
                                 </div>
                                 <div class="campo-form-panel">
                                     <label for="prodCategoria">Categoría</label>
-                                    <input type="text" id="prodCategoria" name="categoria" placeholder="Ej. Tecnología" required>
+                                    <input type="text" id="prodCategoria" name="categoria" placeholder="Ej. Tecnología" value="${not empty producto ? producto.categoria : ''}" required>
                                 </div>
                                 <div class="campo-form-panel campo-form-panel-full">
                                     <label for="prodImagen">URL de imagen</label>
-                                    <input type="url" id="prodImagen" name="imagenProducto" placeholder="https://...">
+                                    <input type="url" id="prodImagen" name="imagenProducto" placeholder="https://..." value="${not empty producto ? producto.imagenProducto : ''}">
                                 </div>
                                 <div class="campo-form-panel campo-form-panel-full">
                                     <label for="prodDesc">Descripción</label>
-                                    <textarea id="prodDesc" name="descripcion" placeholder="Descripción del producto"></textarea>
+                                    <textarea id="prodDesc" name="descripcion" placeholder="Descripción del producto">${not empty producto ? producto.descripcion : ''}</textarea>
                                 </div>
                             </div>
                             <div class="toolbar" style="margin-top:18px;">
@@ -113,11 +115,7 @@
                                         <td>$${producto.precio}</td>
                                         <td>${producto.stock}</td>
                                         <td class="acciones-celda">
-                                            <form method="POST" action="${pageContext.request.contextPath}/admin/gestionProductos" style="display: inline;">
-                                                <input type="hidden" name="accion" value="editar">
-                                                <input type="hidden" name="id" value="${producto.id}">
-                                                <button type="submit" class="btn-icono" title="Editar"><i class="fa-solid fa-pen"></i></button>
-                                            </form>
+                                            <a href="${pageContext.request.contextPath}/admin/gestionProductos?accion=editar&id=${producto.id}" class="btn-icono" title="Editar"><i class="fa-solid fa-pen"></i></a>
                                             <form method="POST" action="${pageContext.request.contextPath}/admin/gestionProductos" style="display: inline;" onsubmit="return confirm('¿Eliminar este producto?')">
                                                 <input type="hidden" name="accion" value="eliminar">
                                                 <input type="hidden" name="id" value="${producto.id}">

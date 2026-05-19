@@ -86,7 +86,7 @@ public class GestionProductosServlet extends HttpServlet {
     
     private void mostrarFormularioEdicion(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String productoIdStr = request.getParameter("productoId");
+        String productoIdStr = request.getParameter("id");
         
         if (productoIdStr == null || productoIdStr.trim().isEmpty()) {
             request.setAttribute("error", "ID de producto inválido");
@@ -104,9 +104,11 @@ public class GestionProductosServlet extends HttpServlet {
                 return;
             }
             
+            List<Producto> productos = productoBO.listarProductos();
+            request.setAttribute("productos", productos);
             request.setAttribute("producto", productoOpt.get());
             request.setAttribute("modo", "editar");
-            request.getRequestDispatcher("/formularioProductoView.jsp").forward(request, response);
+            request.getRequestDispatcher("/gestionProductosView.jsp").forward(request, response);
         } catch (Exception e) {
             request.setAttribute("error", "Error al obtener producto: " + e.getMessage());
             listarProductos(request, response);
@@ -115,7 +117,7 @@ public class GestionProductosServlet extends HttpServlet {
     
     private void guardarProducto(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String productoIdStr = request.getParameter("productoId");
+        String productoIdStr = request.getParameter("id");
         String nombre = request.getParameter("nombre");
         String precio = request.getParameter("precio");
         String descripcion = request.getParameter("descripcion");
@@ -157,7 +159,7 @@ public class GestionProductosServlet extends HttpServlet {
     
     private void eliminarProducto(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String productoIdStr = request.getParameter("productoId");
+        String productoIdStr = request.getParameter("id");
         
         if (productoIdStr == null || productoIdStr.trim().isEmpty()) {
             request.setAttribute("error", "ID de producto inválido");

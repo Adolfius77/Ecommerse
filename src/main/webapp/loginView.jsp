@@ -53,10 +53,10 @@
                             <%= request.getAttribute("exito")%>
                         </div>
                         <script>
-                          
+
                             setTimeout(function () {
                                 window.location.href = '<%= request.getAttribute("urlDestino")%>';
-                            }, 2000); 
+                            }, 2000);
                         </script>
                         <% } %>
 
@@ -89,7 +89,8 @@
                             </div>
 
                             <div class="btn-regresar">
-                                <button type="button" onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i> Regresar</button>                        </div>
+                                <button type="button" onclick="window.history.back();"><i class="fa-solid fa-arrow-left"></i> Regresar</button>                       
+                            </div>
                         </form>
                     </div>
                 </main>
