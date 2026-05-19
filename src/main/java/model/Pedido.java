@@ -21,6 +21,8 @@ public class Pedido {
     private ObjectId idUsuario;
     private Double total;
     private String estadoPago;
+    private String metodoPago;
+    private String direccionEnvio;
 
     public Pedido() {
     }
@@ -95,6 +97,22 @@ public class Pedido {
 
     public void setEstadoPago(String estadoPago) {
         this.estadoPago = estadoPago;
+    }
+
+    public String getMetodoPago() {
+        return metodoPago;
+    }
+
+    public void setMetodoPago(String metodoPago) {
+        this.metodoPago = metodoPago;
+    }
+
+    public String getDireccionEnvio() {
+        return direccionEnvio;
+    }
+
+    public void setDireccionEnvio(String direccionEnvio) {
+        this.direccionEnvio = direccionEnvio;
     }
 
 }

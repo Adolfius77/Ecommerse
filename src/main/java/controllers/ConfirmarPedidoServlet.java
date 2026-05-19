@@ -106,8 +106,10 @@ public class ConfirmarPedidoServlet extends HttpServlet {
             pedido.setNombreCliente(usuario.getNombre());
             pedido.setFecha(new Date());
             pedido.setEstado(estadoPedido.PENDIENTE);
-            pedido.setEstadoPago("PENDIENTE");
-            
+            pedido.setMetodoPago(metodoPago);
+            pedido.setDireccionEnvio(direccionEnvio);
+            pedido.setEstadoPago(estadoPagoInicial(metodoPago));
+
             double total = 0;
             List<detallePedido> detalles = new java.util.ArrayList<>();
             
@@ -167,5 +169,12 @@ public class ConfirmarPedidoServlet extends HttpServlet {
         String fecha = new java.text.SimpleDateFormat("yyyyMMdd").format(new Date());
         String hash = objectId.substring(0, 5).toUpperCase();
         return "PED-" + fecha + "-" + hash;
+    }
+
+    private String estadoPagoInicial(String metodoPago) {
+        if ("contraentrega".equals(metodoPago)) {
+            return "PENDIENTE";
+        }
+        return "POR_CONFIRMAR";
     }
 }

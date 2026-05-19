@@ -133,4 +133,18 @@ public class PedidoBO implements IPedidoBO {
         }
         return pedidoDAO.listarPorUsuario(idUsuario);
     }
+
+    @Override
+    public boolean cambiarEstadoPago(ObjectId id, String nuevoEstadoPago) throws Exception {
+        if (id == null) {
+            throw new IllegalArgumentException("El id del pedido es obligatorio");
+        }
+        if (nuevoEstadoPago == null || nuevoEstadoPago.trim().isEmpty()) {
+            throw new IllegalArgumentException("El estado de pago es obligatorio");
+        }
+        Pedido pedido = pedidoDAO.obtenerPorId(id)
+                .orElseThrow(() -> new Exception("Pedido no encontrado"));
+        pedido.setEstadoPago(nuevoEstadoPago.trim());
+        return pedidoDAO.actualizar(pedido);
+    }
 }

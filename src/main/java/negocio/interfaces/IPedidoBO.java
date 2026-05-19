@@ -31,4 +31,6 @@ public interface IPedidoBO {
     void registrarPedido(Pedido pedido) throws Exception;
     
     List<Pedido> obtenerPedidosPorUsuario(ObjectId idUsuario) throws Exception;
+
+    boolean cambiarEstadoPago(ObjectId id, String nuevoEstadoPago) throws Exception;
 }
