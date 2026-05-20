@@ -20,9 +20,9 @@ public interface IResenaDAO {
 
     List<reseña> listarPorProducto(ObjectId productoId);
 
-    Optional<reseña> obtenerPorId(ObjectId id);
+    Optional<reseña> obtenerPorId(ObjectId _id);
 
-    boolean eliminarPorId(ObjectId id);
+    boolean eliminarPorId(ObjectId _id);
     
     boolean actualizar(reseña resena);
 }

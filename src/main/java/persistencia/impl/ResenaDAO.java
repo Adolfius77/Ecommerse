@@ -50,25 +50,25 @@ public class ResenaDAO implements IResenaDAO {
     @Override
     public List<reseña> listarPorProducto(ObjectId productoId) {
         try {
-            return col.find(eq("_productoId", productoId)).into(new ArrayList<>());
+            return col.find(eq("productoId", productoId)).into(new ArrayList<>());
         } catch (MongoException e) {
             throw new MongoException("error al listar reseñas por producto: " + e.getMessage());
         }
     }
 
     @Override
-    public Optional<reseña> obtenerPorId(ObjectId id) {
+    public Optional<reseña> obtenerPorId(ObjectId _id) {
         try {
-            return Optional.ofNullable(col.find(eq("_id", id)).first());
+            return Optional.ofNullable(col.find(eq("_id", _id)).first());
         } catch (MongoException e) {
             throw new MongoException("error al obtener reseña: " + e.getMessage());
         }
     }
 
     @Override
-    public boolean eliminarPorId(ObjectId id) {
+    public boolean eliminarPorId(ObjectId _id) {
         try {
-            return col.deleteOne(eq("_id", id)).getDeletedCount() > 0;
+            return col.deleteOne(eq("_id", _id)).getDeletedCount() > 0;
         } catch (MongoException e) {
             throw new MongoException("error al eliminar reseña: " + e.getMessage());
         }
