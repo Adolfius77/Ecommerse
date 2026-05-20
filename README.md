@@ -1,8 +1,8 @@
 # E-Commerce Web
 Integrantes:
-<h3>Jose Adolfo Ortega Ruiz : 252882</h3>
+<h3>Jose Adolfo Ortega Ruiz | id: 252882</h3>
 <br>
-<h3>Angel Gabriel Beltran Duarto: 244865</h3>
+<h3>Angel Gabriel Beltran Duarto | id: 244865</h3>
 <br>
 
 Aplicación web de comercio electrónico desarrollada para la materia **Aplicaciones Web – Unidad 4**. Permite a los clientes navegar un catálogo, usar carrito, realizar pedidos y dejar reseñas; los administradores gestionan productos, categorías, usuarios, pedidos y moderación de reseñas.
