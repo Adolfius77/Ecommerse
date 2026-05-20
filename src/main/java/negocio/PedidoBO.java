@@ -58,8 +58,10 @@ public class PedidoBO implements IPedidoBO {
         }
         Pedido pedido = pedidoDAO.obtenerPorId(id)
                 .orElseThrow(() -> new Exception("Pedido no encontrado"));
-        List<detallePedido> detalles = detallesPedidoDAO.obtenerPorPedido(id);
-        pedido.setProductos(detalles);
+        List<detallePedido> embebidos = pedido.getProductos();
+        if (embebidos == null || embebidos.isEmpty()) {
+            pedido.setProductos(detallesPedidoDAO.obtenerPorPedido(id));
+        }
         return pedido;
     }
 
