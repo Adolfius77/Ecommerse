@@ -21,15 +21,12 @@ import util.PasswordUtil;
  */
 @WebServlet(name = "RegistroServlet", urlPatterns = {"/Registro"})
 public class RegistroServlet extends HttpServlet {
+
     private IUsuarioBO usuarioBo;
 
-    
     public RegistroServlet() {
         this.usuarioBo = new UsuarioBO();
     }
-    
-
-    
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -54,10 +51,7 @@ public class RegistroServlet extends HttpServlet {
             request.getRequestDispatcher("/registroView.jsp").forward(request, response);
             return;
         }
-        if(telefono.length() < 10){
-            request.setAttribute("error", "el telefono debe tener 10 digitos");
-            return;
-        }
+       
         Usuario nuevoUsuario = new Usuario();
         nuevoUsuario.setNombre(nombre.trim() + " " + (apellido != null ? apellido.trim() : ""));
         nuevoUsuario.setCorreo(correo.trim());
@@ -65,14 +59,13 @@ public class RegistroServlet extends HttpServlet {
         nuevoUsuario.setTelefono(telefono);
         nuevoUsuario.setDireccion(direccion);
         nuevoUsuario.setRol("CLIENTE");
-        
+
         try {
             usuarioBo.registrarUsuario(nuevoUsuario);
-            request.setAttribute("exito","registro exitososo");
+            request.setAttribute("exito", "registro exitososo");
             request.setAttribute("urlDestino", request.getContextPath() + "/loginView.jsp?registrado=true");
             request.getRequestDispatcher("/registroView.jsp").forward(request, response);
-            
-            
+
         } catch (Exception e) {
             request.setAttribute("error", "Error al registrar el usuario: " + e.getMessage());
             request.getRequestDispatcher("/registroView.jsp").forward(request, response);
