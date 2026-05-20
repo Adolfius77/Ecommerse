@@ -251,7 +251,7 @@
                         <!-- Detalles del Pedido -->
                         <div class="confirmacion-section">
                             <h3><i class="fa-solid fa-box"></i> Detalles del Pedido</h3>
-                            <table class="detalles-pedido">
+                            <table class="detalles-pedido" style="color: black">
                                 <thead>
                                     <tr>
                                         <th>Producto</th>

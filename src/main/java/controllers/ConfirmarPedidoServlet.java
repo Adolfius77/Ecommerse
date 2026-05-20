@@ -122,6 +122,22 @@ public class ConfirmarPedidoServlet extends HttpServlet {
                 detalle.setSubtotal(item.getSubtotal());
                 detalles.add(detalle);
                 total += item.getSubtotal();
+                
+                try {
+                    Optional<model.Producto> prodOpt = productoBO.obtenerPorId(item.getProductoId());
+                    if (prodOpt.isPresent()) {
+                        model.Producto productoComprado = prodOpt.get();
+                        
+                        int nuevoStock = productoComprado.getStock() - item.getCantidad();
+                        if (nuevoStock < 0) nuevoStock = 0; 
+                        
+                        productoComprado.setStock(nuevoStock);
+                        
+                        productoBO.actualizarProducto(productoComprado);
+                    }
+                } catch (Exception ex) {
+                    System.err.println("Error al actualizar stock del producto " + item.getNombre() + ": " + ex.getMessage());
+                }
             }
             
             pedido.setProductos(detalles);
