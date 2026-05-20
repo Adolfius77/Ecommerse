@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Proyecto ECommerce - ${producto.nombre}</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <link rel="stylesheet" href="./styles/estiloDetalleProducto.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/estiloDetalleProducto.css">
     </head>
     <body>
 
@@ -80,7 +80,7 @@
                             <p><strong>Stock disponible:</strong> ${producto.stock}</p>
 
                             <c:if test="${producto.stock > 0}">
-                                <form method="POST" action="${pageContext.request.contextPath}/carrito" class="detalle-acciones" style="display:flex; flex-wrap:wrap; gap:12px; align-items:center;">
+                                <form method="GET" action="${pageContext.request.contextPath}/carrito" class="detalle-acciones" style="display:flex; flex-wrap:wrap; gap:12px; align-items:center;">
                                     <input type="hidden" name="accion" value="agregar">
                                     <input type="hidden" name="productoId" value="${producto.id}">
                                     <div class="selector-cantidad">

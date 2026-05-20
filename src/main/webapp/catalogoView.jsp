@@ -125,9 +125,10 @@
 
                                     <div class="producto-acciones">
                                         <a class="btn-secundario" href="${pageContext.request.contextPath}/DetalleProducto?id=${producto.id}">Ver detalle</a>
-                                        <form method="POST" action="${pageContext.request.contextPath}/verCarrito" style="display: inline;">
+                                        <form method="GET" action="${pageContext.request.contextPath}/carrito" style="display: inline;">
                                             <input type="hidden" name="accion" value="agregar">
                                             <input type="hidden" name="productoId" value="${producto.id}">
+                                            <input type="hidden" name="cantidad" value="1">
                                             <button type="submit" class="btn-primario" ${producto.stock == 0 ? 'disabled' : ''}>Agregar</button>
                                         </form>
                                     </div>
