@@ -33,20 +33,37 @@ public class autentificacionFilter implements Filter {
                                   path.equals("/loginView.jsp") || 
                                   path.equals("/registroView.jsp") || 
                                   path.equals("/login") || 
-                                  path.equals("/registro") || 
+                                  path.equals("/Registro") || 
                                   path.equals("/catalogo") || 
                                   path.equals("/catalogoView.jsp") || 
                                   path.equals("/DetalleProducto") || 
                                   path.equals("/productoDetalleView.jsp");
 
-        boolean estaLogueado = (sesion != null && sesion.getAttribute("usuario") != null);
+        boolean esRutaAdmin = path.startsWith("/admin/") || 
+                              path.equals("/adminDashboard.jsp") || 
+                              path.equals("/GestionUsuarios") || 
+                              path.equals("/gestionUsuariosView.jsp") ||
+                              path.equals("/GestionProductos") || 
+                              path.equals("/gestionProductosView.jsp") ||
+                              path.equals("/GestionCategorias") ||
+                              path.equals("/gestionCategoriasView.jsp") ||
+                              path.equals("/GestionPedidos") ||
+                              path.equals("/gestionPedidosPagosView.jsp");
 
-        if (estaLogueado || esPaginaPublica || esRecursoEstatico) {
+        boolean estaLogueado = (sesion != null && sesion.getAttribute("usuario") != null);
+        boolean esAdmin = (sesion != null && sesion.getAttribute("esAdmin") != null && (Boolean) sesion.getAttribute("esAdmin"));
+
+        if (esRecursoEstatico || esPaginaPublica) {
             chain.doFilter(request, response);
+        } else if (estaLogueado) {
+            if (esRutaAdmin && !esAdmin) {
+                httpResponse.sendRedirect(httpRequest.getContextPath() + "/catalogo?error=acceso_denegado");
+            } else {
+                chain.doFilter(request, response);
+            }
         } else {
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/loginView.jsp?error=sesion_requerida");
         }
-
     }
 
     @Override
