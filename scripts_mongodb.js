@@ -164,6 +164,11 @@ db.producto.insertMany([
 // ============================================================
 // 4. CREAR COLECCIÓN DE PEDIDOS
 // ============================================================
+// Si ya ejecutaste un seed antiguo con estados en minúsculas, normaliza una vez en Compass:
+// db.pedido.updateMany({ estado: "pendiente" }, { $set: { estado: "PENDIENTE" } })
+// db.pedido.updateMany({ estado: "entregado" }, { $set: { estado: "ENTREGADO" } })
+// db.pedido.updateMany({ estado: "enviado" }, { $set: { estado: "ENVIADO" } })
+// db.pedido.updateMany({ estadoPago: "pagado" }, { $set: { estadoPago: "PAGADO" } })
 db.createCollection("pedido");
 
 db.pedido.insertMany([
@@ -171,10 +176,10 @@ db.pedido.insertMany([
         "_id": ObjectId("809f1f77bcf86cd799439001"),
         "nombreCliente": "Juan Pérez",
         "fecha": new Date("2026-05-15"),
-        "estado": "entregado",
+        "estado": "ENTREGADO",
         "idUsuario": ObjectId("507f1f77bcf86cd799439011"),
         "total": 1299.99,
-        "estadoPago": "pagado",
+        "estadoPago": "PAGADO",
         "productos": [
             {
                 "idProducto": ObjectId("708f1f77bcf86cd799439001"),
@@ -196,10 +201,10 @@ db.pedido.insertMany([
         "_id": ObjectId("809f1f77bcf86cd799439002"),
         "nombreCliente": "María García",
         "fecha": new Date("2026-05-16"),
-        "estado": "pendiente",
+        "estado": "PENDIENTE",
         "idUsuario": ObjectId("507f1f77bcf86cd799439012"),
         "total": 1199.99,
-        "estadoPago": "pagado",
+        "estadoPago": "PAGADO",
         "productos": [
             {
                 "idProducto": ObjectId("708f1f77bcf86cd799439002"),
