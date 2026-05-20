@@ -14,7 +14,7 @@ Aplicación web de comercio electrónico desarrollada para la materia **Aplicaci
 
 ## Requisitos previos
 
-- **JDK 11** o superior  
+- **JDK 21** o superior  
 - **Apache Maven 3.6+**  
 - **MongoDB** en ejecución (`mongodb://localhost:27017/`)  
 - **Apache Tomcat 10.1+** (compatible con Jakarta EE 10)
